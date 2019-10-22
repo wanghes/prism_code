@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="prism.css">
+	<link rel="stylesheet" type="text/css" href="simditor/simditor.css">
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		body{
+			font-size: 12px;
+			background: #fafafa;
+		}
+		#page-demo{
+			position: relative;
+			width:748px;
+			margin: 0 auto;
+			background: #fff;
+			padding: 0 15px;
+			font-size: 14px;
+		    border: 1px solid #ddd;
+		    margin-bottom: 20px;
+		    border-radius: 3px;
+		    -webkit-box-shadow: 0px 1px 1px rgba(0,0,0,0.10);
+		    -moz-box-shadow: 0px 1px 1px rgba(0,0,0,0.10);
+		    box-shadow: 0px 1px 1px rgba(0,0,0,0.10);
+		    overflow: hidden;
+		}
+		pre[class*="language-"]{
+			margin: 0.5em -15px !important;
+			font-size: 13px;
+		}
+</style>
+</head>
+<body>
+
+<section id="page-demo">
+	<textarea id="txt-content" data-autosave="editor-content" autofocus required style="width:90%">
+	<p>Simditor is a browser-based WYSIWYG text editor.
+	</p><p>It is used by <a href="http://tower.im">Tower</a> -- a popular project management web application.
+	</p><p>Supported Browsers: IE10+、Chrome、Firefox、Safari.</p>
+	<ul>
+	  <li><a href="https://github.com/mycolorway/simditor/releases" target="_blank" class="">Download Zip</a></li>
+	  <li>Install with npm: $ npm install simditor</li>
+	  <li>Install with bower: $ bower install simditor</li>
+	</ul>
+	</textarea>
+	<button id="test">获取值</button>
+</section>
+
+<script type="text/javascript" src="prism.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="simditor/module.js" data-manual></script>
+<script type="text/javascript" src="simditor/uploader.js" data-manual></script>
+<script type="text/javascript" src="simditor/hotkeys.js" data-manual></script>
+<script type="text/javascript" src="simditor/simditor.js" data-manual></script>
+
+
+<script type="text/javascript">
+	
+(function() {
+  	$(function() {
+    	var $preview, editor, mobileToolbar, toolbar;
+    	Simditor.locale = 'en-US';
+    	toolbar = ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment'];
+    
+	    editor = new Simditor({
+	      	textarea: $('#txt-content'),
+	      	placeholder: '这里输入文字...',
+	      	toolbar: toolbar,
+	      	pasteImage: true,
+	      	defaultImage: 'assets/images/image.png',
+	      	upload: location.search === '?upload' ? {
+	        	url: '/upload'
+	      	} : false
+	    });
+    	$preview = $('#preview');
+	    if ($preview.length > 0) {
+	      	return editor.on('valuechanged', function(e) {
+	        	return $preview.html(editor.getValue());
+	      	});
+	    }
+
+	    $('#test').click(function() {
+	    	console.log(editor.getValue());
+	    })
+	    
+  	});
+
+
+}).call(this);
+</script>
+</body>
+</html>
